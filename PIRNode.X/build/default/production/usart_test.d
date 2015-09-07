@@ -1,0 +1,1 @@
+ build/default/production/usart_test.d  build/default/production/usart_test.p1:  usart_test.c

@@ -1,0 +1,113 @@
+
+# 1 "usart_test.c"
+
+# 4 "/Applications/microchip/xc8/v1.35/include/__size_t.h"
+typedef unsigned size_t;
+
+# 14 "/Applications/microchip/xc8/v1.35/include/string.h"
+extern void * memcpy(void *, const void *, size_t);
+extern void * memmove(void *, const void *, size_t);
+extern void * memset(void *, int, size_t);
+
+# 34
+extern char * strcat(char *, const char *);
+extern char * strcpy(char *, const char *);
+extern char * strncat(char *, const char *, size_t);
+extern char * strncpy(char *, const char *, size_t);
+extern char * strdup(const char *);
+extern char * strtok(char *, const char *);
+
+
+extern int memcmp(const void *, const void *, size_t);
+extern int strcmp(const char *, const char *);
+extern int stricmp(const char *, const char *);
+extern int strncmp(const char *, const char *, size_t);
+extern int strnicmp(const char *, const char *, size_t);
+extern void * memchr(const void *, int, size_t);
+extern size_t strcspn(const char *, const char *);
+extern char * strpbrk(const char *, const char *);
+extern size_t strspn(const char *, const char *);
+extern char * strstr(const char *, const char *);
+extern char * stristr(const char *, const char *);
+extern char * strerror(int);
+extern size_t strlen(const char *);
+extern char * strchr(const char *, int);
+extern char * strichr(const char *, int);
+extern char * strrchr(const char *, int);
+extern char * strrichr(const char *, int);
+
+# 3 "usart_test.c"
+char caracter;
+bit flag_interrupcao = 0;
+
+void interrupt RS232(void)
+{
+caracter = RCREG;
+flag_interrupcao = 1;
+RCIF = 0;
+}
+
+
+void inicializa_RS232(long velocidade,int modo)
+{
+
+# 20
+RCSTA = 0x90;
+
+
+int valor;
+if(modo == 1)
+{
+TXSTA = 0x24;
+valor =(int)(((4000000/velocidade)-16)/16);
+}
+else
+{
+TXSTA = 0x20;
+valor =(int)(((4000000/velocidade)-64)/64);
+}
+SPBRG = valor;
+RCIE = 1;
+TXIE = 0;
+
+}
+void escreve(char valor)
+{
+TXIF = 0;
+TXREG = valor;
+while(TXIF ==0);
+}
+void imprime(const char frase[])
+{
+char indice = 0;
+char tamanho = strlen(frase);
+while(indice < tamanho )
+{
+escreve(frase[indice]);
+__delay_ms(1);
+indice++;
+}
+}
+
+# 61
+void main(void)
+{
+TRISB = 0X02;
+PORTB = 0;
+inicializa_RS232(9600,1);
+PEIE = 1;
+GIE = 1;
+imprime("Usando serial MPlab xc8 \n\r");
+imprime("En Minicom habilite newline con <ctrl-a> a. \n\r");
+imprime("Digite, yo le voy a dar eco. \n\r");
+for(;;)
+{
+if(flag_interrupcao == 1)
+{
+
+escreve(caracter);
+flag_interrupcao = 0;
+}
+
+}
+}
