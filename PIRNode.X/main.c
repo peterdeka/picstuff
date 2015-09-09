@@ -8,6 +8,10 @@
 
 #include <xc.h>
 #include <string.h>
+
+//set pic identification: ID, TYPE
+__EEPROM_DATA ('A', 'P', 0x00, 0x00, 0x00, 0x00, 0x00, 0x00); 
+
 // CONFIG
 #pragma config FOSC = INTOSCIO  // Oscillator Selection bits (INTOSC oscillator: I/O function on RA6/OSC2/CLKOUT pin, I/O function on RA7/OSC1/CLKIN)
 #pragma config WDTE = OFF       // Watchdog Timer Enable bit (WDT disabled)
@@ -95,9 +99,16 @@ void main(void)
     GIE = 1; //GIE: Global Interrupt Enable bit
     __delay_ms(8000);
     INTCONbits.INTE = 1;
-    //imprime("Usando serial MPlab xc8 \n\r");
-    //imprime("En Minicom habilite newline con <ctrl-a> a. \n\r");
-    //imprime("Digite, yo le voy a dar eco. \n\r");
+    //get identification data
+    unsigned char myid = 0x00;
+    unsigned char mytype = 0x00;
+    myid = eeprom_read (0x00); 
+    mytype = eeprom_read (0x01); 
+    //char sendstring = "{\"id\":\"0\",\"t\":\"0\",\"v\":{\"s\":1}}";
+    //register with the aggregator
+    imprime("*{\"id\":\"A\",\"t\":\"P\",\"mt\":\"REG\",\"v\":{\"s\":1}}-");
+    __delay_ms(3000);
+    //start my job
     for(;;)
     {
        /* if(flag_interrupcao ==  1)
@@ -107,8 +118,10 @@ void main(void)
             flag_interrupcao = 0;
         }
         */
+        
         if(flag_sensor == 1){
-            imprime("HIGH\n\r");
+            
+            imprime("*{\"id\":\"0\",\"t\":\"0\",\"mt\":\"DAT\",\"v\":{\"s\":1}}-");
             flag_sensor = 0;
         }
         __delay_ms(2000);

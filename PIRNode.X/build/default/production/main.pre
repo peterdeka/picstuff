@@ -852,8 +852,10 @@ extern char * strichr(const char *, int);
 extern char * strrchr(const char *, int);
 extern char * strrichr(const char *, int);
 
+# 13 "main.c"
+asm("\tpsect eeprom_data,class=EEDATA,delta=2,space=3,noexec"); asm("\tdb\t" "'A'" "," "'P'" "," "0x00" "," "0x00" "," "0x00" "," "0x00" "," "0x00" "," "0x00");
 
-# 12 "main.c"
+
 #pragma config FOSC = INTOSCIO
 #pragma config WDTE = OFF
 #pragma config PWRTE = OFF
@@ -887,7 +889,7 @@ INTF = 0;
 void inicializa_RS232(long velocidade,int modo)
 {
 
-# 48
+# 52
 RCSTA = 0x90;
 
 
@@ -925,7 +927,7 @@ indice++;
 }
 }
 
-# 89
+# 93
 void main(void)
 {
 TRISB = 0X03;
@@ -936,14 +938,22 @@ GIE = 1;
 _delay((unsigned long)((8000)*(4000000/4000.0)));
 INTCONbits.INTE = 1;
 
+unsigned char myid = 0x00;
+unsigned char mytype = 0x00;
+myid = eeprom_read (0x00);
+mytype = eeprom_read (0x01);
 
+
+imprime("*{\"id\":\"A\",\"t\":\"P\",\"mt\":\"REG\",\"v\":{\"s\":1}}-");
+_delay((unsigned long)((3000)*(4000000/4000.0)));
 
 for(;;)
 {
 
-# 110
+# 122
 if(flag_sensor == 1){
-imprime("HIGH\n\r");
+
+imprime("*{\"id\":\"0\",\"t\":\"0\",\"mt\":\"DAT\",\"v\":{\"s\":1}}-");
 flag_sensor = 0;
 }
 _delay((unsigned long)((2000)*(4000000/4000.0)));

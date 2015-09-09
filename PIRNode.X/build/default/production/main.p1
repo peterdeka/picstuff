@@ -45,6 +45,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S12 . . . ]
 "324
 [v _INTCONbits `VS12 ~T0 @X0 0 e@11 ]
+"42 /Applications/microchip/xc8/v1.35/include/eeprom_routines.h
+[v _eeprom_read `(uc ~T0 @X0 0 ef1`uc ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -640,280 +642,304 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;string.h: 56: extern char * strichr(const char *, int);
 [; ;string.h: 57: extern char * strrchr(const char *, int);
 [; ;string.h: 58: extern char * strrichr(const char *, int);
-"12 main.c
-[p x FOSC=INTOSCIO ]
-"13
-[p x WDTE=OFF ]
-"14
-[p x PWRTE=OFF ]
-"15
-[p x MCLRE=OFF ]
+"13 main.c
+[; ;main.c: 13: asm("\tpsect eeprom_data,class=EEDATA,delta=2,space=3,noexec"); asm("\tdb\t" "'A'" "," "'P'" "," "0x00" "," "0x00" "," "0x00" "," "0x00" "," "0x00" "," "0x00");
+[; <" 	psect eeprom_data,class=EEDATA,delta=2,space=3,noexec ;# ">
+[; <" 	db	'A','P',0x00,0x00,0x00,0x00,0x00,0x00 ;# ">
 "16
-[p x BOREN=OFF ]
+[p x FOSC=INTOSCIO ]
 "17
-[p x LVP=ON ]
+[p x WDTE=OFF ]
 "18
-[p x CPD=OFF ]
+[p x PWRTE=OFF ]
 "19
+[p x MCLRE=OFF ]
+"20
+[p x BOREN=OFF ]
+"21
+[p x LVP=ON ]
+"22
+[p x CPD=OFF ]
+"23
 [p x CP=OFF ]
-"24
+"28
 [v _caracter `uc ~T0 @X0 1 e ]
-[; ;main.c: 24: char caracter;
-"25
+[; ;main.c: 28: char caracter;
+"29
 [v _flag_interrupcao `b ~T0 @X0 1 e ]
 [i _flag_interrupcao
 -> 0 `i
 ]
-[; ;main.c: 25: bit flag_interrupcao = 0;
-"26
+[; ;main.c: 29: bit flag_interrupcao = 0;
+"30
 [v _flag_sensor `b ~T0 @X0 1 e ]
 [i _flag_sensor
 -> 0 `i
 ]
-[; ;main.c: 26: bit flag_sensor = 0;
+[; ;main.c: 30: bit flag_sensor = 0;
 [v F695 `(v ~T0 @X0 1 tf ]
-"28
+"32
 [v _RS232 `IF695 ~T0 @X0 1 e ]
-"29
+"33
 {
-[; ;main.c: 28: void interrupt RS232(void)
-[; ;main.c: 29: {
+[; ;main.c: 32: void interrupt RS232(void)
+[; ;main.c: 33: {
 [e :U _RS232 ]
 [f ]
-[; ;main.c: 30: if (RCIF == 1){
-"30
+[; ;main.c: 34: if (RCIF == 1){
+"34
 [e $ ! == -> _RCIF `i -> 1 `i 53  ]
 {
-[; ;main.c: 31: caracter = RCREG;
-"31
-[e = _caracter _RCREG ]
-[; ;main.c: 32: flag_interrupcao = 1;
-"32
-[e = _flag_interrupcao -> -> 1 `i `b ]
-[; ;main.c: 33: RCIF = 0;
-"33
-[e = _RCIF -> -> 0 `i `b ]
-"34
-}
-[e :U 53 ]
-[; ;main.c: 34: }
-[; ;main.c: 35: if(INTF == 1){
+[; ;main.c: 35: caracter = RCREG;
 "35
-[e $ ! == -> _INTF `i -> 1 `i 54  ]
-{
-[; ;main.c: 36: flag_sensor = 1;
+[e = _caracter _RCREG ]
+[; ;main.c: 36: flag_interrupcao = 1;
 "36
-[e = _flag_sensor -> -> 1 `i `b ]
-[; ;main.c: 37: INTF = 0;
+[e = _flag_interrupcao -> -> 1 `i `b ]
+[; ;main.c: 37: RCIF = 0;
 "37
-[e = _INTF -> -> 0 `i `b ]
+[e = _RCIF -> -> 0 `i `b ]
 "38
 }
-[e :U 54 ]
+[e :U 53 ]
 [; ;main.c: 38: }
-[; ;main.c: 39: }
+[; ;main.c: 39: if(INTF == 1){
 "39
+[e $ ! == -> _INTF `i -> 1 `i 54  ]
+{
+[; ;main.c: 40: flag_sensor = 1;
+"40
+[e = _flag_sensor -> -> 1 `i `b ]
+[; ;main.c: 41: INTF = 0;
+"41
+[e = _INTF -> -> 0 `i `b ]
+"42
+}
+[e :U 54 ]
+[; ;main.c: 42: }
+[; ;main.c: 43: }
+"43
 [e :UE 52 ]
 }
-"42
+"46
 [v _inicializa_RS232 `(v ~T0 @X0 1 ef2`l`i ]
-"43
+"47
 {
-[; ;main.c: 42: void inicializa_RS232(long velocidade,int modo)
-[; ;main.c: 43: {
+[; ;main.c: 46: void inicializa_RS232(long velocidade,int modo)
+[; ;main.c: 47: {
 [e :U _inicializa_RS232 ]
-"42
+"46
 [v _velocidade `l ~T0 @X0 1 r1 ]
 [v _modo `i ~T0 @X0 1 r2 ]
-"43
+"47
 [f ]
-[; ;main.c: 48: RCSTA = 0x90;
-"48
-[e = _RCSTA -> -> 144 `i `uc ]
-"51
-[v _valor `i ~T0 @X0 1 a ]
-[; ;main.c: 51: int valor;
-[; ;main.c: 52: if(modo == 1)
+[; ;main.c: 52: RCSTA = 0x90;
 "52
-[e $ ! == _modo -> 1 `i 56  ]
-[; ;main.c: 53: {
-"53
-{
-[; ;main.c: 54: TXSTA = 0x24;
-"54
-[e = _TXSTA -> -> 36 `i `uc ]
-[; ;main.c: 55: valor =(int)(((4000000/velocidade)-16)/16);
+[e = _RCSTA -> -> 144 `i `uc ]
 "55
-[e = _valor -> / - / -> 4000000 `l _velocidade -> -> 16 `i `l -> -> 16 `i `l `i ]
+[v _valor `i ~T0 @X0 1 a ]
+[; ;main.c: 55: int valor;
+[; ;main.c: 56: if(modo == 1)
 "56
-}
-[; ;main.c: 56: }
-[e $U 57  ]
+[e $ ! == _modo -> 1 `i 56  ]
+[; ;main.c: 57: {
 "57
-[e :U 56 ]
-[; ;main.c: 57: else
-[; ;main.c: 58: {
-"58
 {
-[; ;main.c: 59: TXSTA = 0x20;
+[; ;main.c: 58: TXSTA = 0x24;
+"58
+[e = _TXSTA -> -> 36 `i `uc ]
+[; ;main.c: 59: valor =(int)(((4000000/velocidade)-16)/16);
 "59
-[e = _TXSTA -> -> 32 `i `uc ]
-[; ;main.c: 60: valor =(int)(((4000000/velocidade)-64)/64);
+[e = _valor -> / - / -> 4000000 `l _velocidade -> -> 16 `i `l -> -> 16 `i `l `i ]
 "60
-[e = _valor -> / - / -> 4000000 `l _velocidade -> -> 64 `i `l -> -> 64 `i `l `i ]
+}
+[; ;main.c: 60: }
+[e $U 57  ]
 "61
+[e :U 56 ]
+[; ;main.c: 61: else
+[; ;main.c: 62: {
+"62
+{
+[; ;main.c: 63: TXSTA = 0x20;
+"63
+[e = _TXSTA -> -> 32 `i `uc ]
+[; ;main.c: 64: valor =(int)(((4000000/velocidade)-64)/64);
+"64
+[e = _valor -> / - / -> 4000000 `l _velocidade -> -> 64 `i `l -> -> 64 `i `l `i ]
+"65
 }
 [e :U 57 ]
-[; ;main.c: 61: }
-[; ;main.c: 62: SPBRG = valor;
-"62
-[e = _SPBRG -> _valor `uc ]
-[; ;main.c: 63: RCIE = 1;
-"63
-[e = _RCIE -> -> 1 `i `b ]
-[; ;main.c: 64: TXIE = 0;
-"64
-[e = _TXIE -> -> 0 `i `b ]
-[; ;main.c: 66: }
+[; ;main.c: 65: }
+[; ;main.c: 66: SPBRG = valor;
 "66
+[e = _SPBRG -> _valor `uc ]
+[; ;main.c: 67: RCIE = 1;
+"67
+[e = _RCIE -> -> 1 `i `b ]
+[; ;main.c: 68: TXIE = 0;
+"68
+[e = _TXIE -> -> 0 `i `b ]
+[; ;main.c: 70: }
+"70
 [e :UE 55 ]
 }
-"67
-[v _escreve `(v ~T0 @X0 1 ef1`uc ]
-"68
-{
-[; ;main.c: 67: void escreve(char valor)
-[; ;main.c: 68: {
-[e :U _escreve ]
-"67
-[v _valor `uc ~T0 @X0 1 r1 ]
-"68
-[f ]
-[; ;main.c: 69: TXIF = 0;
-"69
-[e = _TXIF -> -> 0 `i `b ]
-[; ;main.c: 70: TXREG = valor;
-"70
-[e = _TXREG _valor ]
-[; ;main.c: 71: while(TXIF ==0);
 "71
+[v _escreve `(v ~T0 @X0 1 ef1`uc ]
+"72
+{
+[; ;main.c: 71: void escreve(char valor)
+[; ;main.c: 72: {
+[e :U _escreve ]
+"71
+[v _valor `uc ~T0 @X0 1 r1 ]
+"72
+[f ]
+[; ;main.c: 73: TXIF = 0;
+"73
+[e = _TXIF -> -> 0 `i `b ]
+[; ;main.c: 74: TXREG = valor;
+"74
+[e = _TXREG _valor ]
+[; ;main.c: 75: while(TXIF ==0);
+"75
 [e $U 59  ]
 [e :U 60 ]
 [e :U 59 ]
 [e $ == -> _TXIF `i -> 0 `i 60  ]
 [e :U 61 ]
-[; ;main.c: 72: }
-"72
+[; ;main.c: 76: }
+"76
 [e :UE 58 ]
 }
-"73
-[v _imprime `(v ~T0 @X0 1 ef1`*Cuc ]
-"74
-{
-[; ;main.c: 73: void imprime(const char frase[])
-[; ;main.c: 74: {
-[e :U _imprime ]
-"73
-[v _frase `*Cuc ~T0 @X0 1 r1 ]
-"74
-[f ]
-"75
-[v _indice `uc ~T0 @X0 1 a ]
-[; ;main.c: 75: char indice = 0;
-[e = _indice -> -> 0 `i `uc ]
-"76
-[v _tamanho `uc ~T0 @X0 1 a ]
-[; ;main.c: 76: char tamanho = strlen(frase);
-[e = _tamanho -> ( _strlen (1 _frase `uc ]
-[; ;main.c: 77: while(indice < tamanho )
 "77
-[e $U 63  ]
-[e :U 64 ]
-[; ;main.c: 78: {
+[v _imprime `(v ~T0 @X0 1 ef1`*Cuc ]
 "78
 {
-[; ;main.c: 79: escreve(frase[indice]);
+[; ;main.c: 77: void imprime(const char frase[])
+[; ;main.c: 78: {
+[e :U _imprime ]
+"77
+[v _frase `*Cuc ~T0 @X0 1 r1 ]
+"78
+[f ]
 "79
-[e ( _escreve (1 *U + _frase * -> _indice `ux -> -> # *U _frase `ui `ux ]
-[; ;main.c: 80: _delay((unsigned long)((1)*(4000000/4000.0)));
+[v _indice `uc ~T0 @X0 1 a ]
+[; ;main.c: 79: char indice = 0;
+[e = _indice -> -> 0 `i `uc ]
 "80
-[e ( __delay (1 -> * -> -> 1 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
-[; ;main.c: 81: indice++;
+[v _tamanho `uc ~T0 @X0 1 a ]
+[; ;main.c: 80: char tamanho = strlen(frase);
+[e = _tamanho -> ( _strlen (1 _frase `uc ]
+[; ;main.c: 81: while(indice < tamanho )
 "81
-[e ++ _indice -> -> 1 `i `uc ]
+[e $U 63  ]
+[e :U 64 ]
+[; ;main.c: 82: {
 "82
+{
+[; ;main.c: 83: escreve(frase[indice]);
+"83
+[e ( _escreve (1 *U + _frase * -> _indice `ux -> -> # *U _frase `ui `ux ]
+[; ;main.c: 84: _delay((unsigned long)((1)*(4000000/4000.0)));
+"84
+[e ( __delay (1 -> * -> -> 1 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;main.c: 85: indice++;
+"85
+[e ++ _indice -> -> 1 `i `uc ]
+"86
 }
 [e :U 63 ]
-"77
+"81
 [e $ < -> _indice `i -> _tamanho `i 64  ]
 [e :U 65 ]
-[; ;main.c: 82: }
-[; ;main.c: 83: }
-"83
+[; ;main.c: 86: }
+[; ;main.c: 87: }
+"87
 [e :UE 62 ]
 }
-"89
+"93
 [v _main `(v ~T0 @X0 1 ef ]
-"90
+"94
 {
-[; ;main.c: 89: void main(void)
-[; ;main.c: 90: {
+[; ;main.c: 93: void main(void)
+[; ;main.c: 94: {
 [e :U _main ]
 [f ]
-[; ;main.c: 91: TRISB = 0X03;
-"91
-[e = _TRISB -> -> 3 `i `uc ]
-[; ;main.c: 92: PORTB = 0;
-"92
-[e = _PORTB -> -> 0 `i `uc ]
-[; ;main.c: 93: inicializa_RS232(9600,1);
-"93
-[e ( _inicializa_RS232 (2 , -> -> 9600 `i `l -> 1 `i ]
-[; ;main.c: 94: PEIE = 1;
-"94
-[e = _PEIE -> -> 1 `i `b ]
-[; ;main.c: 95: GIE = 1;
+[; ;main.c: 95: TRISB = 0X03;
 "95
-[e = _GIE -> -> 1 `i `b ]
-[; ;main.c: 96: _delay((unsigned long)((8000)*(4000000/4000.0)));
+[e = _TRISB -> -> 3 `i `uc ]
+[; ;main.c: 96: PORTB = 0;
 "96
-[e ( __delay (1 -> * -> -> 8000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
-[; ;main.c: 97: INTCONbits.INTE = 1;
+[e = _PORTB -> -> 0 `i `uc ]
+[; ;main.c: 97: inicializa_RS232(9600,1);
 "97
-[e = . . _INTCONbits 0 4 -> -> 1 `i `uc ]
-[; ;main.c: 101: for(;;)
+[e ( _inicializa_RS232 (2 , -> -> 9600 `i `l -> 1 `i ]
+[; ;main.c: 98: PEIE = 1;
+"98
+[e = _PEIE -> -> 1 `i `b ]
+[; ;main.c: 99: GIE = 1;
+"99
+[e = _GIE -> -> 1 `i `b ]
+[; ;main.c: 100: _delay((unsigned long)((8000)*(4000000/4000.0)));
+"100
+[e ( __delay (1 -> * -> -> 8000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;main.c: 101: INTCONbits.INTE = 1;
 "101
-{
-"102
-[e :U 67 ]
-[; ;main.c: 102: {
-{
-[; ;main.c: 110: if(flag_sensor == 1){
+[e = . . _INTCONbits 0 4 -> -> 1 `i `uc ]
+"103
+[v _myid `uc ~T0 @X0 1 a ]
+[; ;main.c: 103: unsigned char myid = 0x00;
+[e = _myid -> -> 0 `i `uc ]
+"104
+[v _mytype `uc ~T0 @X0 1 a ]
+[; ;main.c: 104: unsigned char mytype = 0x00;
+[e = _mytype -> -> 0 `i `uc ]
+[; ;main.c: 105: myid = eeprom_read (0x00);
+"105
+[e = _myid ( _eeprom_read (1 -> -> 0 `i `uc ]
+[; ;main.c: 106: mytype = eeprom_read (0x01);
+"106
+[e = _mytype ( _eeprom_read (1 -> -> 1 `i `uc ]
+[; ;main.c: 109: imprime("*{\"id\":\"A\",\"t\":\"P\",\"mt\":\"REG\",\"v\":{\"s\":1}}-");
+"109
+[e ( _imprime (1 :s 1C ]
+[; ;main.c: 110: _delay((unsigned long)((3000)*(4000000/4000.0)));
 "110
+[e ( __delay (1 -> * -> -> 3000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
+[; ;main.c: 112: for(;;)
+"112
+{
+"113
+[e :U 67 ]
+[; ;main.c: 113: {
+{
+[; ;main.c: 122: if(flag_sensor == 1){
+"122
 [e $ ! == -> _flag_sensor `i -> 1 `i 70  ]
 {
-[; ;main.c: 111: imprime("HIGH\n\r");
-"111
-[e ( _imprime (1 :s 1C ]
-[; ;main.c: 112: flag_sensor = 0;
-"112
+[; ;main.c: 124: imprime("*{\"id\":\"0\",\"t\":\"0\",\"mt\":\"DAT\",\"v\":{\"s\":1}}-");
+"124
+[e ( _imprime (1 :s 2C ]
+[; ;main.c: 125: flag_sensor = 0;
+"125
 [e = _flag_sensor -> -> 0 `i `b ]
-"113
+"126
 }
 [e :U 70 ]
-[; ;main.c: 113: }
-[; ;main.c: 114: _delay((unsigned long)((2000)*(4000000/4000.0)));
-"114
+[; ;main.c: 126: }
+[; ;main.c: 127: _delay((unsigned long)((2000)*(4000000/4000.0)));
+"127
 [e ( __delay (1 -> * -> -> 2000 `i `d / -> -> 4000000 `l `d .4000.0 `ul ]
-"115
+"128
 }
-[; ;main.c: 115: }
+[; ;main.c: 128: }
 [e $U 67  ]
 [e :U 68 ]
 }
-[; ;main.c: 116: }
-"116
+[; ;main.c: 129: }
+"129
 [e :UE 66 ]
 }
-[a 1C 72 73 71 72 10 13 0 ]
-
+[a 2C 42 123 34 105 100 34 58 34 48 34 44 34 116 34 58 34 48 34 44 34 109 116 34 58 34 68 65 84 34 44 34 118 34 58 123 34 115 34 58 49 125 125 45 0 ]
+[a 1C 42 123 34 105 100 34 58 34 65 34 44 34 116 34 58 34 80 34 44 34 109 116 34 58 34 82 69 71 34 44 34 118 34 58 123 34 115 34 58 49 125 125 45 0 ]

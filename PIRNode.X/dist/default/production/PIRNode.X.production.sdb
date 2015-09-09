@@ -15,15 +15,17 @@
 [v _eecpymem eecpymem `(v  1 e 0 0 ]
 "24
 [v _memcpyee memcpyee `(v  1 e 0 0 ]
-"28 /Users/deka/MPLABXProjects/PIRNode.X/main.c
+"6 /Applications/microchip/xc8/v1.35/sources/pic/eeread.c
+[v _eeprom_read eeprom_read `(uc  1 e 1 0 ]
+"32 /Users/deka/MPLABXProjects/PIRNode.X/main.c
 [v _RS232 RS232 `II(v  1 e 0 0 ]
-"42
+"46
 [v _inicializa_RS232 inicializa_RS232 `(v  1 e 0 0 ]
-"67
+"71
 [v _escreve escreve `(v  1 e 0 0 ]
-"73
+"77
 [v _imprime imprime `(v  1 e 0 0 ]
-"89
+"93
 [v _main main `(v  1 e 0 0 ]
 "221 /Applications/microchip/xc8/v1.35/include/pic16f628a.h
 [v _PORTB PORTB `VEuc  1 e 1 @6 ]
@@ -56,6 +58,12 @@
 [v _TXSTA TXSTA `VEuc  1 e 1 @152 ]
 "1169
 [v _SPBRG SPBRG `VEuc  1 e 1 @153 ]
+"1175
+[v _EEDATA EEDATA `VEuc  1 e 1 @154 ]
+"1181
+[v _EEADR EEADR `VEuc  1 e 1 @155 ]
+"1187
+[v _EECON1 EECON1 `VEuc  1 e 1 @156 ]
 "1356
 [v _GIE GIE `VEb  1 e 0 @95 ]
 "1362
@@ -66,30 +74,38 @@
 [v _RCIE RCIE `VEb  1 e 0 @1125 ]
 "1418
 [v _RCIF RCIF `VEb  1 e 0 @101 ]
+"1420
+[v _RD RD `VEb  1 e 0 @1248 ]
 "1520
 [v _TXIE TXIE `VEb  1 e 0 @1124 ]
 "1522
 [v _TXIF TXIF `VEb  1 e 0 @100 ]
-"24 /Users/deka/MPLABXProjects/PIRNode.X/main.c
+"1538
+[v _WR WR `VEb  1 e 0 @1249 ]
+"28 /Users/deka/MPLABXProjects/PIRNode.X/main.c
 [v _caracter caracter `uc  1 e 1 0 ]
-"25
+"29
 [v _flag_interrupcao flag_interrupcao `b  1 e 0 0 ]
-"26
+"30
 [v _flag_sensor flag_sensor `b  1 e 0 0 ]
-"89
+"93
 [v _main main `(v  1 e 0 0 ]
 {
-"116
+"104
+[v main@mytype mytype `uc  1 a 1 34 ]
+"103
+[v main@myid myid `uc  1 a 1 33 ]
+"129
 } 0
-"42
+"46
 [v _inicializa_RS232 inicializa_RS232 `(v  1 e 0 0 ]
 {
-"51
+"55
 [v inicializa_RS232@valor valor `i  1 a 2 24 ]
-"42
+"46
 [v inicializa_RS232@velocidade velocidade `l  1 p 4 14 ]
 [v inicializa_RS232@modo modo `i  1 p 2 18 ]
-"66
+"70
 } 0
 "6 /Applications/microchip/xc8/v1.35/sources/common/aldiv.c
 [v ___aldiv __aldiv `(l  1 e 4 0 ]
@@ -104,19 +120,19 @@
 [v ___aldiv@dividend dividend `l  1 p 4 4 ]
 "42
 } 0
-"73 /Users/deka/MPLABXProjects/PIRNode.X/main.c
+"77 /Users/deka/MPLABXProjects/PIRNode.X/main.c
 [v _imprime imprime `(v  1 e 0 0 ]
 {
 [v imprime@frase frase `*.24DCCuc  1 a 1 wreg ]
-"75
+"79
 [v imprime@indice indice `uc  1 a 1 9 ]
-"76
+"80
 [v imprime@tamanho tamanho `uc  1 a 1 7 ]
-"73
+"77
 [v imprime@frase frase `*.24DCCuc  1 a 1 wreg ]
-"75
+"79
 [v imprime@frase frase `*.24DCCuc  1 a 1 8 ]
-"83
+"87
 } 0
 "4 /Applications/microchip/xc8/v1.35/sources/common/strlen.c
 [v _strlen strlen `(ui  1 e 2 0 ]
@@ -130,17 +146,26 @@
 [v strlen@s s `*.24DCCuc  1 a 1 4 ]
 "13
 } 0
-"67 /Users/deka/MPLABXProjects/PIRNode.X/main.c
+"71 /Users/deka/MPLABXProjects/PIRNode.X/main.c
 [v _escreve escreve `(v  1 e 0 0 ]
 {
 [v escreve@valor valor `uc  1 a 1 wreg ]
 [v escreve@valor valor `uc  1 a 1 wreg ]
-"69
+"73
 [v escreve@valor valor `uc  1 a 1 5 ]
-"72
+"76
 } 0
-"28
+"6 /Applications/microchip/xc8/v1.35/sources/pic/eeread.c
+[v _eeprom_read eeprom_read `(uc  1 e 1 0 ]
+{
+[v eeprom_read@addr addr `uc  1 a 1 wreg ]
+[v eeprom_read@addr addr `uc  1 a 1 wreg ]
+"9
+[v eeprom_read@addr addr `uc  1 a 1 6 ]
+"12
+} 0
+"32 /Users/deka/MPLABXProjects/PIRNode.X/main.c
 [v _RS232 RS232 `II(v  1 e 0 0 ]
 {
-"39
+"43
 } 0
